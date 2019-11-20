@@ -1,0 +1,110 @@
+﻿<Window x:Class="BigramParser.UI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:BigramParser.UI"
+        mc:Ignorable="d"
+        Title="Bigram Parser" Height="600" Width="900">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="26"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="35"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Column="0" Grid.Row="0"
+               Content="Input"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"/>
+        <Label Grid.Column="1" Grid.Row="0"
+               Content="Histogram Result"
+               HorizontalAlignment="Stretch"
+               VerticalAlignment="Stretch"
+               HorizontalContentAlignment="Center"
+               VerticalContentAlignment="Center"/>
+        <Grid Grid.Column="0" Grid.Row="1">
+            <ScrollViewer HorizontalScrollBarVisibility="Disabled">
+                <TextBox Margin="5"
+                        Name="txtInput"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AcceptsReturn="True"
+                        AcceptsTab="True"
+                        TextWrapping="Wrap"/>
+            </ScrollViewer>
+        </Grid>
+        <Grid Grid.Column="0" Grid.Row="2" Margin="5">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="100" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0" 
+                            Orientation="Horizontal"
+                            HorizontalAlignment="Right">
+                    <Label Name="lblFileName" 
+                           Content="Choose a text file: " />
+                    <Button Name="btnBrowse" 
+                            Padding="5 0" 
+                            Content="Browse"
+                            Click="BtnBrowse_Click"/>
+                </StackPanel>
+                <Button Grid.Column="1"
+                        Name="btnParse"
+                        HorizontalAlignment="Right"
+                        Padding="5 0"
+                        Click="BtnParse_Click">
+                    Parse Text
+                </Button>
+            </Grid>
+        </Grid>
+        <Label Grid.Column="1" Grid.Row="1" 
+               Name="lblHistogramResultMessage"
+               Visibility="Visible" 
+               HorizontalAlignment="Stretch"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Stretch"
+               VerticalContentAlignment="Center"
+               Content="Enter text into the input and press 'Parse Text' to see the bigrams!" />
+        <FlowDocumentScrollViewer Grid.Column="1" Grid.Row="1" 
+                                Name="svHistogramResultContainer"
+                                UseLayoutRounding="True" 
+                                SnapsToDevicePixels="True"
+                                HorizontalAlignment="Stretch"
+                                VerticalAlignment="Stretch"
+                                HorizontalContentAlignment="Stretch"
+                                VerticalContentAlignment="Stretch"
+                                Visibility="Hidden">
+            <FlowDocument>
+                <FlowDocument.Resources>
+                    <Style TargetType="TableCell">
+                        <Setter Property="TextAlignment" Value="Center"/>
+                    </Style>
+                </FlowDocument.Resources>
+                <Table Name="tblHistogramResult" 
+                           CellSpacing="0">
+                    <Table.Columns>
+                        <TableColumn/>
+                        <TableColumn/>
+                    </Table.Columns>
+                    <TableRowGroup>
+                        <TableRow>
+                            <TableCell BorderBrush="DarkGreen" BorderThickness="1">
+                                <Paragraph FontWeight="Bold">Bigram</Paragraph>
+                            </TableCell>
+                            <TableCell BorderBrush="DarkGreen" BorderThickness="0,1,1,1">
+                                <Paragraph FontWeight="Bold">Count</Paragraph>
+                            </TableCell>
+                        </TableRow>
+                    </TableRowGroup>
+                </Table>
+            </FlowDocument>
+        </FlowDocumentScrollViewer>
+    </Grid>
+</Window>
