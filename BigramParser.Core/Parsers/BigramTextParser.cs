@@ -1,8 +1,6 @@
 ﻿using BigramParser.Core.Extensions;
 using BigramParser.Core.Infrastructure;
-using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace BigramParser.Core.Parsers
@@ -20,10 +18,7 @@ namespace BigramParser.Core.Parsers
         public string ScrubInput(string input)
         {
             return input
-                .ReplaceNewLines(" ")
-                .ReplacePunctuationMarks(" ")
-                .ReplaceSymbols(" ")
-                .CleanupExtraSpaces()
+                .ScrubNonLettersAndDigits()
                 .Trim()
                 .ToLower();
         }

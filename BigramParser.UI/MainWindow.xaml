@@ -72,39 +72,26 @@
                VerticalAlignment="Stretch"
                VerticalContentAlignment="Center"
                Content="Enter text into the input and press 'Parse Text' to see the bigrams!" />
-        <FlowDocumentScrollViewer Grid.Column="1" Grid.Row="1" 
-                                Name="svHistogramResultContainer"
-                                UseLayoutRounding="True" 
-                                SnapsToDevicePixels="True"
-                                HorizontalAlignment="Stretch"
-                                VerticalAlignment="Stretch"
-                                HorizontalContentAlignment="Stretch"
-                                VerticalContentAlignment="Stretch"
-                                Visibility="Hidden">
-            <FlowDocument>
-                <FlowDocument.Resources>
-                    <Style TargetType="TableCell">
-                        <Setter Property="TextAlignment" Value="Center"/>
-                    </Style>
-                </FlowDocument.Resources>
-                <Table Name="tblHistogramResult" 
-                           CellSpacing="0">
-                    <Table.Columns>
-                        <TableColumn/>
-                        <TableColumn/>
-                    </Table.Columns>
-                    <TableRowGroup>
-                        <TableRow>
-                            <TableCell BorderBrush="DarkGreen" BorderThickness="1">
-                                <Paragraph FontWeight="Bold">Bigram</Paragraph>
-                            </TableCell>
-                            <TableCell BorderBrush="DarkGreen" BorderThickness="0,1,1,1">
-                                <Paragraph FontWeight="Bold">Count</Paragraph>
-                            </TableCell>
-                        </TableRow>
-                    </TableRowGroup>
-                </Table>
-            </FlowDocument>
-        </FlowDocumentScrollViewer>
+        <ScrollViewer Grid.Column="1" Grid.Row="1" 
+                      Name="svResult"
+                      HorizontalScrollBarVisibility="Disabled"
+                      Visibility="Hidden">
+            <TextBox Margin="5"
+                        Name="txtResult"
+                        HorizontalAlignment="Stretch"
+                        VerticalAlignment="Stretch"
+                        AcceptsReturn="True"
+                        AcceptsTab="True"
+                        TextWrapping="Wrap"
+                        IsReadOnly="True"/>
+        </ScrollViewer>
+        <Label Grid.Column="1" Grid.Row="2" 
+               Name="lblPerformanceTimer"
+               Visibility="Visible" 
+               HorizontalAlignment="Stretch"
+               HorizontalContentAlignment="Center"
+               VerticalAlignment="Stretch"
+               VerticalContentAlignment="Center"
+               Content="" />
     </Grid>
 </Window>

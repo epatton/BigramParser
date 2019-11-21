@@ -1,18 +1,9 @@
 ﻿using BigramParser.Core.Parsers;
-using System;
-using System.Collections.Generic;
+using Microsoft.Win32;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace BigramParser.UI
 {
@@ -28,7 +19,7 @@ namespace BigramParser.UI
 
         private void BtnBrowse_Click(object sender, RoutedEventArgs e)
         {
-            Microsoft.Win32.OpenFileDialog openFileDlg = new Microsoft.Win32.OpenFileDialog();
+            var openFileDlg = new OpenFileDialog();
             openFileDlg.DefaultExt = ".txt";
             bool? result = openFileDlg.ShowDialog();
 
@@ -46,41 +37,44 @@ namespace BigramParser.UI
         private void BtnParse_Click(object sender, RoutedEventArgs e)
         {
             lblHistogramResultMessage.Visibility = Visibility.Hidden;
-            svHistogramResultContainer.Visibility = Visibility.Hidden;
+            svResult.Visibility = Visibility.Hidden;
+            txtResult.Text = "";
+            lblPerformanceTimer.Content = "";
 
-            var header = tblHistogramResult.RowGroups.First().Rows.First();
-            tblHistogramResult.RowGroups.First().Rows.Clear();
-            tblHistogramResult.RowGroups.First().Rows.Add(header);
-
+            Stopwatch sw = new Stopwatch();
+            sw.Start();
             var parser = new BigramTextParser(txtInput.Text);
             var result = parser.Parse().OrderByDescending(x => x.Value);
             if (result.Any())
             {
+                var sb = new StringBuilder();
                 foreach (var bigram in result)
                 {
-                    var row = new TableRow();
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(bigram.Key))
-                    {
-                        BorderThickness = new Thickness(1, 0, 1, 1),
-                        BorderBrush = Brushes.DarkGreen
-                    }));
-
-                    row.Cells.Add(new TableCell(new Paragraph(new Run(bigram.Value.ToString()))
-                    {
-                        BorderThickness = new Thickness(0, 0, 1, 1),
-                        BorderBrush = Brushes.DarkGreen
-                    }));
-
-                    tblHistogramResult.RowGroups.First().Rows.Add(row);
+                    sb.Append(bigram.Value);
+                    sb.Append("\t");
+                    sb.Append(bigram.Key.ToString());
+                    sb.AppendLine();
                 }
 
-                svHistogramResultContainer.Visibility = Visibility.Visible;
+                txtResult.Text = sb.ToString();
+
+                sw.Stop();
+
+                svResult.Visibility = Visibility.Visible;
+
+                lblPerformanceTimer.Content = 
+                    "Processing Time: " +
+                    sw.Elapsed.Minutes + "m " +
+                    sw.Elapsed.Seconds + "s " +
+                    sw.Elapsed.Milliseconds + "ms";
             }
             else
             {
                 lblHistogramResultMessage.Content = "Sorry, no bigrams were found in the provided text!";
                 lblHistogramResultMessage.Visibility = Visibility.Visible;
             }
+
+            sw.Stop();
         }
     }
 }
